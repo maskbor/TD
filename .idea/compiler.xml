@@ -26,5 +26,8 @@
         <module name="TD" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="TD" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
 </project>

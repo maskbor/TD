@@ -14,28 +14,35 @@
         </repository>
     </repositories>
 
-<dependencies>
-    <dependency>
-        <groupId>com.badlogicgames.gdx</groupId>
-        <artifactId>gdx-backend-lwjgl</artifactId>
-        <version>1.5.5</version>
-    </dependency>
-    <dependency>
-        <groupId>com.badlogicgames.gdx</groupId>
-        <artifactId>gdx</artifactId>
-        <version>1.5.3</version>
-    </dependency>
+    <dependencies>
+        <!-- core dependencies -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
-    <dependency>
-        <groupId>com.badlogicgames.gdx</groupId>
-        <artifactId>gdx-platform</artifactId>
-        <version>0.9.9</version>
-        <classifier>natives-desktop</classifier>
-        <scope>test</scope>
-    </dependency>
+        <!-- desktop-specific dependencies -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-backend-lwjgl</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-platform</artifactId>
+            <version>1.2.0</version>
+            <classifier>natives-desktop</classifier>
+        </dependency>
 
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-platform</artifactId>
+            <version>1.2.0</version>
+            <classifier>natives-armeabi-v7a</classifier>
+            <scope>provided</scope>
+        </dependency>
 
-</dependencies>
-
+    </dependencies>
 </project>

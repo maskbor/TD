@@ -13,7 +13,7 @@ public class MyTestGame implements ApplicationListener {
 	
     @Override
     public void create() {   
-    	quadTexture = new Texture("data/quads.png");
+    	quadTexture = new Texture("assets/data/quads.png");
     	batch = new SpriteBatch();
     	redRegion = new TextureRegion(quadTexture, 0, 0, 32, 32);
     }
