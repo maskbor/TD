@@ -7,7 +7,7 @@ import java.util.Random;
  */
 
 public class Generator {
-    //0-дорога 1-стена 2-база, 3-враг
+    //0-дорога 1-стена 2-база, 3-враг, 4-башня
     private int size;
     private int[][] maze;
 
@@ -18,7 +18,7 @@ public class Generator {
 
         for (int i = 0; i < size - 1; i++)
             for (int j = 0; j < size - 1; j++)
-                this.maze[i][j] = 1;
+                this.maze[i][j] = -1;
 
 
         for (int i = 0; i <= size - 1; i++) {
@@ -29,45 +29,66 @@ public class Generator {
             maze[i][size - 1] = 1;
         }
 
-        int predCenterRoomI=0, predCenterRoomJ=0;
-
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++) {
-                int centerRoomI = i * 20 + rand.nextInt(10);
-                int centerRoomJ = j * 20 + rand.nextInt(10);
-                createRoom(centerRoomI, centerRoomJ, rand.nextInt(8) + 2, rand.nextInt(8) + 2);
-                createCoridor(predCenterRoomI,predCenterRoomJ,centerRoomI,centerRoomJ);
-                predCenterRoomI=centerRoomI;
-                predCenterRoomJ=centerRoomJ;
+        for (int i = 0; i < size - 1; i++)
+            for (int j = 0; j < size - 1; j++) {
+                if (this.maze[i][j] == -1) {
+                    createBlock(i, j, rand.nextInt(5) + 3);
+                }
             }
-        maze[0][0]=2;
-        maze[predCenterRoomI][predCenterRoomJ]=3;
+
+
+        for (int i = 0; i <= size - 1; i++) {
+            maze[0][i] = 1;
+            maze[size - 1][i] = 1;
+
+            maze[i][0] = 1;
+            maze[i][size - 1] = 1;
+        }
+
+
+        maze[1][1] = 2;
+        int i = size-2, j = size-1, countBase=0;
+        while (countBase==0){
+            if(maze[i][j]==0&&maze[i+1][j]==1) {
+                maze[i][j]=3;
+                countBase++;
+            }
+            else {
+                i--;
+                j--;
+            }
+        }
     }
 
-    private void createRoom(int centerI, int centerJ, int sizeI, int sizeJ) {
-        int topLeftI = centerI - sizeI;
-        while (topLeftI < 0) {
-            topLeftI++;
-        }
-        int topLeftJ = centerJ - sizeJ;
-        while (topLeftJ < 0) {
-            topLeftJ++;
-        }
-        int downRightI = centerI + sizeI;
-        while (downRightI >= size) {
-            downRightI--;
-        }
-        int downRightJ = centerJ + sizeJ;
-        while (downRightJ >= size) {
-            downRightJ--;
-        }
-
-
-        for (int i = topLeftI; i < downRightI; i++)
-            for (int j = topLeftJ; j < downRightJ; j++) {
-                maze[i][j]=0;
-            }
-
+    private void createBlock(int x, int y, int sizeRoom) {
+        Random random = new Random();
+        int position=random.nextInt(10)%2;
+                int height = x+sizeRoom;
+                while (height>=size) height--;
+                int width = y+2;
+                while (width>=size)width--;
+                switch (position){
+                    case 0:
+                        for (int i=x; i<height; i++)
+                            for (int j = y; j<width; j++)
+                                maze[i][j]=0;
+                        for (int i=x+1; i<height; i++)
+                            for (int j = y+1; j<width; j++)
+                                maze[i][j]=1;
+                        break;
+                    case 1:
+                        height = y+sizeRoom;
+                        width = x+2;
+                        while (height>=size) height--;
+                        while (width>=size)width--;
+                        for (int i=y; i<height; i++)
+                            for (int j = x; j<width; j++)
+                                maze[j][i]=0;
+                        for (int i=y+1; i<height; i++)
+                            for (int j = x+1; j<width; j++)
+                                maze[j][i]=1;
+                        break;
+                }
     }
 
 

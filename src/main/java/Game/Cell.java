@@ -16,12 +16,13 @@ public abstract class Cell {
     public Cell(TextureRegion texture){
         this.sprite = new Sprite(texture);
         this.sprite.setSize(10, 10);
+        this.SIZE_MAP=60;
     }
     public void setSize(int size){
         this.SIZE_MAP=size;
     }
 
-    //public abstract void update(Cell[][] map, int x, int y, Texture texture);
+    public abstract void update(int x, int y, Enemy[] masEnemy);
 
     public void setTexture(TextureRegion texture){
     this.sprite = new Sprite(texture);
@@ -32,7 +33,7 @@ public abstract class Cell {
     public void draw(SpriteBatch batch,int x, int y){
 
         //sprite.setPosition(x-SIZE_MAP/2-sprite.getWidth()/2, y-SIZE_MAP/2-sprite.getHeight()/2);
-        sprite.setPosition(x-SIZE_MAP/2-sprite.getWidth()/2, y-SIZE_MAP/2-sprite.getHeight()/2);
+        sprite.setPosition(x, y);
         sprite.draw(batch);
     }
 }

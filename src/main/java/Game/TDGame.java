@@ -2,38 +2,52 @@ package Game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class TDGame implements ApplicationListener {
 
 	private Texture fon;
+    private Texture enemy;
 	private SpriteBatch batch;
     private TextureRegion wall;
+    private TextureRegion enemy1;
     private TextureRegion road;
     private TextureRegion base;
     private TextureRegion baseVrag;
-    private TextureRegion gun;
+    private TextureRegion tower;
+    private long lastSec=System.currentTimeMillis();
+    private int intervalGen = 3;
+
+    private Enemy[] masEnemy = new Enemy[10];
+    private int enemyCount=0;
 
     private int SIZE_MAP = 60;
     private Cell[][] bmap = new Cell[SIZE_MAP][SIZE_MAP];
-	
+    int[][] map;
+
     @Override
-    public void create() {   
-    	fon = new Texture("assets/data/fon.jpg");
-    	batch = new SpriteBatch();
+    public void create() {
+        fon = new Texture("assets/data/fon.jpg");
+        enemy = new Texture("assets/data/enemy.png");
+
+        batch = new SpriteBatch();
     	wall = new TextureRegion(fon, 0, 0, 10, 10);
+        enemy1 = new TextureRegion(enemy, 0, 0, 10, 10);
         road = new TextureRegion(fon,10,0,10,10);
         base = new TextureRegion(fon,20,0,10,10);
         baseVrag = new TextureRegion(fon,30,0,10,10);
-        gun = new TextureRegion(fon,40,0,10,10);
+        tower = new TextureRegion(fon,40,0,10,10);
         Generator g = new Generator(SIZE_MAP);
-        int[][] map = g.getMaze();
+        map = g.getMaze();
         bmap = new Cell[SIZE_MAP][SIZE_MAP];
+
+        for (int i = 0; i < SIZE_MAP; i++){
+            for (int j = 0; j < SIZE_MAP; j++)
+                System.out.print(map[i][j]);
+            System.out.println();}
+
 
         for (int i = 0; i < SIZE_MAP; i++)
             for (int j = 0; j < SIZE_MAP; j++) {
@@ -60,7 +74,9 @@ public class TDGame implements ApplicationListener {
         batch.begin();
         for (int i = 0; i < SIZE_MAP; i++)
             for (int j = 0; j < SIZE_MAP; j++)
-                bmap[i][j].draw(batch, i*10+5, j*10+5);
+                bmap[i][j].draw(batch, i*10, (59-j)*10);
+        for(int i = 0; i<enemyCount; i++)
+            if(masEnemy[i].getAlive()) masEnemy[i].draw(batch,masEnemy[i].getPosX(),(59-masEnemy[i].getPosY()/10)*10);
         batch.end();
     }
 
@@ -77,11 +93,39 @@ public class TDGame implements ApplicationListener {
     }
 
     public void update(){
+
         boolean isTouched = Gdx.input.isTouched();
         if(isTouched) {
-            //bmap[Gdx.input.getX()/10][59-Gdx.input.getY()/10]
-            bmap[Gdx.input.getX()/10][59-Gdx.input.getY()/10]=new Tower(gun);
+            if(map[Gdx.input.getX()/10][Gdx.input.getY()/10]==1){
+                bmap[Gdx.input.getX()/10][Gdx.input.getY()/10]=new Tower(tower);
+                map[Gdx.input.getX()/10][Gdx.input.getY()/10]=4;
+            }
         }
+        for(int i=0;i<SIZE_MAP;i++)
+            for (int j = 0; j < SIZE_MAP; j++){
+                if (map[i][j]==3&&enemyCount<10&&(System.currentTimeMillis()/1000-lastSec/1000)>intervalGen){
+                    masEnemy[enemyCount] = new Enemy(enemy1,i*10,j*10);
+                    enemyCount++;
+                    lastSec=System.currentTimeMillis();
+                }
+
+                if(map[i][j]==4){
+                    bmap[i][j].update(i*10,j*10, masEnemy);
+                }
+
+            }
+
+        for (int i=0; i<enemyCount; i++) {
+            masEnemy[i].update(map[masEnemy[i].getPosX()/10-1][masEnemy[i].getPosY()/10],
+                               map[masEnemy[i].getPosX()/10][masEnemy[i].getPosY()/10+1],
+                               map[masEnemy[i].getPosX()/10+1][masEnemy[i].getPosY()/10],
+                               map[masEnemy[i].getPosX()/10][masEnemy[i].getPosY()/10-1],
+                                Gdx.graphics.getDeltaTime());
+        }
+    }
+
+    public Enemy[] getMasEnemy(){
+        return masEnemy;
     }
 
 }

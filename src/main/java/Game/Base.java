@@ -11,4 +11,9 @@ public class Base extends Cell {
         super(texture);
         this.vrag=vrag;
     }
+
+    @Override
+    public void update(int x, int y,Enemy[] masEnemy) {
+
+    }
 }

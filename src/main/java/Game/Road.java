@@ -9,4 +9,9 @@ public class Road extends Cell {
     public Road(TextureRegion texture){
         super(texture);
     }
+
+    @Override
+    public void update(int x, int y,Enemy[] masEnemy) {
+
+    }
 }

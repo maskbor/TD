@@ -9,4 +9,9 @@ public class Wall extends Cell {
     public Wall(TextureRegion texture){
     super(texture);
 }
+
+    @Override
+    public void update(int x, int y,Enemy[] masEnemy) {
+
+    }
 }
