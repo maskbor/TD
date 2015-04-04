@@ -20,6 +20,7 @@ public class TDGame implements ApplicationListener {
     private long lastSec=System.currentTimeMillis();
     private int intervalGen = 3;
 
+    private Texture win;
     private Enemy[] masEnemy = new Enemy[10];
     private int enemyCount=0;
 
@@ -29,9 +30,9 @@ public class TDGame implements ApplicationListener {
 
     @Override
     public void create() {
+        win = new Texture("assets/data/win.png");
         fon = new Texture("assets/data/fon.jpg");
         enemy = new Texture("assets/data/enemy.png");
-
         batch = new SpriteBatch();
     	wall = new TextureRegion(fon, 0, 0, 10, 10);
         enemy1 = new TextureRegion(enemy, 0, 0, 10, 10);
@@ -75,9 +76,14 @@ public class TDGame implements ApplicationListener {
         for (int i = 0; i < SIZE_MAP; i++)
             for (int j = 0; j < SIZE_MAP; j++)
                 bmap[i][j].draw(batch, i*10, (59-j)*10);
+
+        int countAliveEnemy=10;
         for(int i = 0; i<enemyCount; i++)
             if(masEnemy[i].getAlive()) masEnemy[i].draw(batch,masEnemy[i].getPosX(),(59-masEnemy[i].getPosY()/10)*10);
+                else countAliveEnemy--;
+        if(countAliveEnemy==0) batch.draw(win,0,0,600,600);
         batch.end();
+
     }
 
     @Override
