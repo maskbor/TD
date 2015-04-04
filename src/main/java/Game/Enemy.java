@@ -28,6 +28,7 @@ public class Enemy {
         this.sprite.setSize(10, 10);
         this.alive = true;
         this.HP = 100;
+        this.direction=2;
     }
 
     public void update(int left, int down, int rigth, int top, float velosity) {
@@ -38,19 +39,19 @@ public class Enemy {
             boolean found = false;
             //0-лево 1-низ, 2-правл 3-вверх
             switch (direction){
-                case 0: if(rigth==1&&top==1&&down==1) direction=-1;
+                case 0: if((rigth==1||rigth==2)&&(top==1||top==2)&&(down==1||down==2)) direction=-1;
                     break;
-                case 1: if(rigth==1&&left==1&&top==1) direction=-1;
+                case 1: if((rigth==1||rigth==2)&&(left==1||left==2)&&(top==1||top==2)) direction=-1;
                     break;
-                case 2: if(left==1&&top==1&&down==1) direction=-1;
+                case 2: if((left==1||left==2)&&(top==1||top==2)&&(down==1||down==2)) direction=-1;
                     break;
-                case 3: if(rigth==1&&left==1&&down==1) direction=-1;
+                case 3: if((rigth==1||rigth==2)&&(left==1||left==2)&&(down==1||down==2)) direction=-1;
                     break;
                 default: break;
             }
 
             while (!found) {
-                nextStep = random.nextInt(3);
+                nextStep = random.nextInt(4);
                 switch (nextStep) {
                     case 0:
                         if (direction != 0 &&
