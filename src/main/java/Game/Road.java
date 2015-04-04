@@ -14,4 +14,9 @@ public class Road extends Cell {
     public void update(int x, int y,Enemy[] masEnemy) {
 
     }
+
+    @Override
+    public boolean getAlive() {
+        return false;
+    }
 }

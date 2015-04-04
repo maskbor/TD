@@ -24,9 +24,11 @@ public abstract class Cell {
 
     public abstract void update(int x, int y, Enemy[] masEnemy);
 
+    public abstract boolean getAlive();
     public void setTexture(TextureRegion texture){
     this.sprite = new Sprite(texture);
     this.sprite.setSize(10, 10);
+
 
 }
 
