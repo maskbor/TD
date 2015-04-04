@@ -47,17 +47,16 @@ public class Generator {
 
 
         maze[1][1] = 2;
-        int i = size-2, j = size-1, countBase=0;
-        while (countBase==0){
-            if(maze[i][j]==0&&maze[i+1][j]==1) {
-                maze[i][j]=3;
-                countBase++;
+
+        int baseCount=0;
+        for (int i = size - 1; i > 0; i--)
+            for (int j = size - 1; j > 0; j--) {
+                if (maze[i][j]==0&&baseCount==0){
+                    maze[i][j]=3;
+                    baseCount++;
+                    break;
+                }
             }
-            else {
-                i--;
-                j--;
-            }
-        }
     }
 
     private void createBlock(int x, int y, int sizeRoom) {

@@ -39,13 +39,13 @@ public class Enemy {
             boolean found = false;
             //0-лево 1-низ, 2-правл 3-вверх
             switch (direction){
-                case 0: if((rigth==1||rigth==2)&&(top==1||top==2)&&(down==1||down==2)) direction=-1;
+                case 0: if(rigth!=0&&top!=0&&down!=0) direction=-1;
                     break;
-                case 1: if((rigth==1||rigth==2)&&(left==1||left==2)&&(top==1||top==2)) direction=-1;
+                case 1: if(rigth!=0&&left!=0&&top!=0) direction=-1;
                     break;
-                case 2: if((left==1||left==2)&&(top==1||top==2)&&(down==1||down==2)) direction=-1;
+                case 2: if(left!=0&&top!=0&&down!=0) direction=-1;
                     break;
-                case 3: if((rigth==1||rigth==2)&&(left==1||left==2)&&(down==1||down==2)) direction=-1;
+                case 3: if(rigth!=0&&left!=0&&down!=0) direction=-1;
                     break;
                 default: break;
             }
